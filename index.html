@@ -1,1 +1,830 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DJ Bolinha — Oficial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+  :root {
+    --black: #0B0B0B;
+    --orange: #FF6A00;
+    --purple: #6A0DAD;
+    --white: #F5F5F0;
+    --gray: #888;
+    --card-bg: #141414;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    overflow-x: hidden;
+  }
+
+  /* ── NAVBAR ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 48px;
+    transition: background 0.4s, padding 0.4s;
+  }
+  nav.scrolled {
+    background: rgba(11,11,11,0.95);
+    backdrop-filter: blur(12px);
+    padding: 14px 48px;
+    border-bottom: 1px solid rgba(255,106,0,0.15);
+  }
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 2px;
+    color: var(--white);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--orange); }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a {
+    color: var(--white); text-decoration: none;
+    font-size: 13px; font-weight: 500; letter-spacing: 1.5px;
+    text-transform: uppercase; opacity: 0.75;
+    transition: opacity 0.2s, color 0.2s;
+  }
+  .nav-links a:hover { opacity: 1; color: var(--orange); }
+  .nav-cta {
+    background: var(--orange); color: var(--black) !important;
+    opacity: 1 !important; padding: 10px 24px; border-radius: 4px;
+    font-weight: 700 !important;
+    box-shadow: 0 0 20px rgba(255,106,0,0.4);
+    transition: box-shadow 0.2s, transform 0.2s !important;
+  }
+  .nav-cta:hover { box-shadow: 0 0 32px rgba(255,106,0,0.7); transform: translateY(-1px); }
+
+  /* ── HERO ── */
+  #hero {
+    position: relative; height: 100vh; min-height: 640px;
+    display: flex; align-items: center;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background-image: url('uploads/ChatGPT Image 23 de abr. de 2026, 13_23_43.png');
+    background-size: cover; background-position: center top;
+    transform: scale(1.05);
+    transition: transform 0.1s linear;
+  }
+  .hero-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(11,11,11,0.2) 0%,
+      rgba(11,11,11,0.1) 40%,
+      rgba(11,11,11,0.85) 80%,
+      rgba(11,11,11,1) 100%
+    );
+  }
+  .hero-content {
+    position: relative; z-index: 2;
+    padding: 0 80px 80px;
+    max-width: 900px;
+  }
+  .hero-tag {
+    display: inline-block;
+    background: var(--orange);
+    color: var(--black);
+    font-size: 11px; font-weight: 700; letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 6px 16px; border-radius: 2px;
+    margin-bottom: 24px;
+  }
+  .hero-headline {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(56px, 8vw, 110px);
+    line-height: 0.92;
+    letter-spacing: 2px;
+    margin-bottom: 24px;
+    text-wrap: balance;
+  }
+  .hero-headline .accent { color: var(--orange); }
+  .hero-sub {
+    font-size: 18px; font-weight: 300;
+    color: rgba(245,245,240,0.75);
+    margin-bottom: 40px;
+    letter-spacing: 0.3px;
+  }
+  .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--orange); color: var(--black);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px; font-weight: 700; letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 16px 40px; border-radius: 4px; border: none;
+    cursor: pointer; text-decoration: none;
+    box-shadow: 0 0 32px rgba(255,106,0,0.5);
+    transition: all 0.25s;
+    display: inline-block;
+  }
+  .btn-primary:hover { box-shadow: 0 0 56px rgba(255,106,0,0.8); transform: translateY(-2px); }
+  .btn-outline {
+    background: transparent; color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px; font-weight: 600; letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 16px 40px; border-radius: 4px;
+    border: 1px solid rgba(245,245,240,0.35);
+    cursor: pointer; text-decoration: none;
+    transition: all 0.25s;
+    display: inline-block;
+  }
+  .btn-outline:hover { border-color: var(--orange); color: var(--orange); }
+
+  /* ── STATS ── */
+  #stats {
+    background: var(--orange);
+    padding: 0;
+    display: grid; grid-template-columns: repeat(3, 1fr);
+  }
+  .stat-item {
+    padding: 32px 48px;
+    border-right: 1px solid rgba(11,11,11,0.2);
+    text-align: center;
+  }
+  .stat-item:last-child { border-right: none; }
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 52px; color: var(--black);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 12px; font-weight: 600; letter-spacing: 2px;
+    text-transform: uppercase; color: rgba(11,11,11,0.65);
+    margin-top: 4px;
+  }
+
+  /* ── SECTION SHARED ── */
+  section { padding: 120px 80px; }
+  .section-tag {
+    font-size: 11px; font-weight: 700; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--orange);
+    margin-bottom: 16px;
+  }
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(40px, 5vw, 72px);
+    letter-spacing: 2px;
+    line-height: 1;
+    margin-bottom: 24px;
+  }
+
+  /* ── SOBRE ── */
+  #sobre {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 80px; align-items: center;
+  }
+  .sobre-img-wrap {
+    position: relative;
+  }
+  .sobre-img {
+    width: 100%; aspect-ratio: 3/4;
+    object-fit: cover; object-position: center top;
+    border-radius: 4px;
+    display: block;
+  }
+  .sobre-img-accent {
+    position: absolute; bottom: -20px; right: -20px;
+    width: 60%; height: 60%;
+    border: 2px solid var(--orange);
+    border-radius: 4px;
+    z-index: -1;
+    opacity: 0.5;
+  }
+  .sobre-text p {
+    font-size: 17px; line-height: 1.75;
+    color: rgba(245,245,240,0.75);
+    margin-bottom: 20px;
+  }
+  .diferenciais {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 12px; margin-top: 40px;
+  }
+  .diferencial {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 18px;
+    background: var(--card-bg);
+    border: 1px solid rgba(255,106,0,0.15);
+    border-radius: 4px;
+    font-size: 14px; font-weight: 500;
+  }
+  .diferencial-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--orange); flex-shrink: 0;
+  }
+
+  /* ── SERVIÇOS ── */
+  #servicos { background: #0f0f0f; }
+  .servicos-header { text-align: center; margin-bottom: 64px; }
+  .servicos-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+  }
+  .servico-card {
+    background: var(--card-bg);
+    padding: 48px 32px;
+    cursor: pointer;
+    transition: background 0.25s;
+    position: relative; overflow: hidden;
+  }
+  .servico-card::before {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--orange), var(--purple));
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.35s;
+  }
+  .servico-card:hover::before { transform: scaleX(1); }
+  .servico-card:hover { background: #1a1a1a; }
+  .servico-icon {
+    font-size: 36px; margin-bottom: 24px; display: block;
+  }
+  .servico-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px; letter-spacing: 1px;
+    margin-bottom: 12px;
+  }
+  .servico-desc {
+    font-size: 14px; color: var(--gray); line-height: 1.65;
+  }
+  .servicos-cta { text-align: center; margin-top: 56px; }
+
+  /* ── GALERIA ── */
+  #galeria { padding-bottom: 80px; }
+  .galeria-header { margin-bottom: 48px; }
+  .galeria-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto;
+    gap: 4px;
+  }
+  .galeria-item {
+    overflow: hidden; position: relative;
+    cursor: pointer;
+  }
+  .galeria-item:first-child {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+  .galeria-item img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s;
+    display: block;
+    min-height: 240px;
+  }
+  .galeria-item:first-child img { min-height: 480px; }
+  .galeria-item:hover img { transform: scale(1.05); }
+  .galeria-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(11,11,11,0.7), transparent);
+    opacity: 0; transition: opacity 0.3s;
+    display: flex; align-items: flex-end;
+    padding: 24px;
+  }
+  .galeria-item:hover .galeria-overlay { opacity: 1; }
+
+  /* ── AGENDA ── */
+  #agenda { background: #0f0f0f; }
+  .agenda-header { margin-bottom: 48px; }
+  .agenda-list { display: flex; flex-direction: column; gap: 2px; }
+  .agenda-item {
+    display: grid;
+    grid-template-columns: 80px 1fr auto;
+    align-items: center; gap: 32px;
+    padding: 24px 32px;
+    background: var(--card-bg);
+    cursor: pointer;
+    transition: background 0.2s;
+    border-left: 3px solid transparent;
+  }
+  .agenda-item:hover {
+    background: #1a1a1a;
+    border-left-color: var(--orange);
+  }
+  .agenda-date {
+    text-align: center;
+  }
+  .agenda-day {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 40px; line-height: 1; color: var(--orange);
+  }
+  .agenda-month {
+    font-size: 11px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--gray);
+  }
+  .agenda-info {}
+  .agenda-nome { font-size: 18px; font-weight: 600; margin-bottom: 4px; }
+  .agenda-local { font-size: 13px; color: var(--gray); }
+  .agenda-cidade {
+    font-size: 13px; font-weight: 500; color: var(--orange);
+    text-transform: uppercase; letter-spacing: 1px;
+  }
+  .agenda-cta { margin-top: 56px; }
+
+  /* ── DEPOIMENTOS ── */
+  #depoimentos { text-align: center; overflow: hidden; }
+  .depo-header { margin-bottom: 56px; }
+  .depo-track {
+    display: flex; gap: 24px;
+    animation: scrollDepo 30s linear infinite;
+    width: max-content;
+  }
+  .depo-track:hover { animation-play-state: paused; }
+  @keyframes scrollDepo {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  .depo-card {
+    width: 360px; flex-shrink: 0;
+    background: var(--card-bg);
+    border: 1px solid rgba(255,106,0,0.1);
+    border-radius: 4px;
+    padding: 36px 32px;
+    text-align: left;
+  }
+  .depo-stars { color: var(--orange); font-size: 18px; margin-bottom: 16px; }
+  .depo-text {
+    font-size: 16px; line-height: 1.7;
+    color: rgba(245,245,240,0.8);
+    margin-bottom: 24px;
+    font-style: italic;
+  }
+  .depo-author { font-size: 13px; font-weight: 600; color: var(--gray); }
+
+  /* ── CONTATO ── */
+  #contato { background: #0f0f0f; }
+  .contato-wrap {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 80px; align-items: start;
+  }
+  .contato-left {}
+  .contato-left p {
+    font-size: 17px; line-height: 1.75;
+    color: rgba(245,245,240,0.65);
+    margin-bottom: 40px;
+  }
+  .contact-links { display: flex; flex-direction: column; gap: 16px; }
+  .contact-link {
+    display: flex; align-items: center; gap: 16px;
+    font-size: 15px; color: var(--white); text-decoration: none;
+    opacity: 0.75; transition: opacity 0.2s, color 0.2s;
+  }
+  .contact-link:hover { opacity: 1; color: var(--orange); }
+  .contact-link-icon {
+    width: 44px; height: 44px;
+    background: var(--card-bg);
+    border: 1px solid rgba(255,106,0,0.2);
+    border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .form { display: flex; flex-direction: column; gap: 16px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .form input, .form select, .form textarea {
+    background: var(--card-bg);
+    border: 1px solid rgba(245,245,240,0.1);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    padding: 14px 18px;
+    border-radius: 4px;
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+  }
+  .form input::placeholder, .form textarea::placeholder { color: var(--gray); }
+  .form input:focus, .form select:focus, .form textarea:focus {
+    border-color: var(--orange);
+  }
+  .form select { color: var(--white); cursor: pointer; }
+  .form select option { background: #1a1a1a; }
+  .form textarea { resize: vertical; min-height: 120px; }
+  .form-success {
+    display: none;
+    text-align: center; padding: 48px 32px;
+    color: var(--orange);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--black);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 48px 80px;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 24px;
+  }
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px; letter-spacing: 2px;
+  }
+  .footer-logo span { color: var(--orange); }
+  .footer-copy { font-size: 13px; color: var(--gray); }
+  .footer-socials { display: flex; gap: 16px; }
+  .footer-social {
+    width: 40px; height: 40px;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--white); text-decoration: none; font-size: 18px;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .footer-social:hover { border-color: var(--orange); color: var(--orange); }
+
+  /* ── WHATSAPP FLOAT ── */
+  .whatsapp-float {
+    position: fixed; bottom: 32px; right: 32px; z-index: 99;
+    width: 56px; height: 56px;
+    background: #25D366;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 24px rgba(37,211,102,0.5);
+    text-decoration: none; font-size: 28px;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .whatsapp-float:hover { transform: scale(1.1); box-shadow: 0 4px 40px rgba(37,211,102,0.7); }
+
+  /* ── FADE IN ── */
+  .fade-in {
+    opacity: 0; transform: translateY(28px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+  .fade-in-left {
+    opacity: 0; transform: translateX(-32px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .fade-in-left.visible { opacity: 1; transform: translateX(0); }
+  .fade-in-right {
+    opacity: 0; transform: translateX(32px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .fade-in-right.visible { opacity: 1; transform: translateX(0); }
+
+  /* ── MOBILE ── */
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    nav.scrolled { padding: 12px 24px; }
+    .nav-links { display: none; }
+    .hero-content { padding: 0 24px 60px; }
+    section { padding: 80px 24px; }
+    #sobre { grid-template-columns: 1fr; gap: 48px; }
+    .servicos-grid { grid-template-columns: 1fr 1fr; }
+    .galeria-grid { grid-template-columns: 1fr 1fr; }
+    .galeria-item:first-child { grid-column: span 2; }
+    #stats { grid-template-columns: 1fr; }
+    .stat-item { border-right: none; border-bottom: 1px solid rgba(11,11,11,0.2); }
+    .agenda-item { grid-template-columns: 60px 1fr; }
+    .agenda-cidade { display: none; }
+    .contato-wrap { grid-template-columns: 1fr; gap: 48px; }
+    .form-row { grid-template-columns: 1fr; }
+    footer { flex-direction: column; padding: 32px 24px; }
+    .diferenciais { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">DJ <span>BOLINHA</span></a>
+  <ul class="nav-links">
+    <li><a href="#sobre">Sobre</a></li>
+    <li><a href="#servicos">Serviços</a></li>
+    <li><a href="#galeria">Galeria</a></li>
+    <li><a href="#agenda">Agenda</a></li>
+    <li><a href="#contato" class="nav-cta">Contratar</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-tag">DJ Premium • Brasil</div>
+    <h1 class="hero-headline">
+      A energia que transforma<br>eventos em <span class="accent">experiências</span><br>inesquecíveis
+    </h1>
+    <p class="hero-sub">Shows lotados, pista em alta e um público que não para.</p>
+    <div class="hero-btns">
+      <a href="#contato" class="btn-primary">Contratar agora</a>
+      <a href="#agenda" class="btn-outline">Ver agenda</a>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div id="stats">
+  <div class="stat-item">
+    <div class="stat-num" data-target="500">0</div>
+    <div class="stat-label">Eventos realizados</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num" data-target="50000" data-suffix="+" data-locale="en">0</div>
+    <div class="stat-label">Pessoas impactadas</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num" data-target="15">0</div>
+    <div class="stat-label">Anos de experiência</div>
+  </div>
+</div>
+
+<!-- SOBRE -->
+<section id="sobre">
+  <div class="sobre-img-wrap fade-in-left">
+    <img src="uploads/ChatGPT Image 23 de abr. de 2026, 13_16_01.png" alt="DJ Bolinha" class="sobre-img">
+    <div class="sobre-img-accent"></div>
+  </div>
+  <div class="sobre-text fade-in-right">
+    <div class="section-tag">Sobre</div>
+    <h2 class="section-title">Não é só tocar —<br>é comandar a pista</h2>
+    <p>DJ Bolinha construiu sua trajetória com base em performance, presença e leitura de público. Com anos de estrada em palcos por todo o Brasil, cada show é uma experiência única.</p>
+    <p>Cada evento é tratado como único, com sets personalizados e foco total na experiência do público. Do corporativo às festas premium, a energia é sempre máxima.</p>
+    <div class="diferenciais">
+      <div class="diferencial"><div class="diferencial-dot"></div>Leitura de pista em tempo real</div>
+      <div class="diferencial"><div class="diferencial-dot"></div>Energia constante do início ao fim</div>
+      <div class="diferencial"><div class="diferencial-dot"></div>Experiência comprovada</div>
+      <div class="diferencial"><div class="diferencial-dot"></div>Versatilidade musical</div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVIÇOS -->
+<section id="servicos">
+  <div class="servicos-header fade-in">
+    <div class="section-tag">Serviços</div>
+    <h2 class="section-title">Seu evento merece<br>mais do que música</h2>
+  </div>
+  <div class="servicos-grid">
+    <div class="servico-card fade-in" style="transition-delay:0.1s">
+      <span class="servico-icon">🎉</span>
+      <div class="servico-title">Festas</div>
+      <div class="servico-desc">Experiência completa de pista. A vibe certa para cada momento, do warm-up ao encerramento épico.</div>
+    </div>
+    <div class="servico-card fade-in" style="transition-delay:0.2s">
+      <span class="servico-icon">🏢</span>
+      <div class="servico-title">Corporativo</div>
+      <div class="servico-desc">Profissionalismo e adaptação ao ambiente. Sets sob medida para o perfil da sua empresa.</div>
+    </div>
+    <div class="servico-card fade-in" style="transition-delay:0.3s">
+      <span class="servico-icon">🔥</span>
+      <div class="servico-title">Shows</div>
+      <div class="servico-desc">Performance de alto impacto. Palco cheio, pista lotada e uma noite que ninguém vai esquecer.</div>
+    </div>
+    <div class="servico-card fade-in" style="transition-delay:0.4s">
+      <span class="servico-icon">🎂</span>
+      <div class="servico-title">Eventos Privados</div>
+      <div class="servico-desc">Personalização total. Aniversários, casamentos e comemorações com a trilha sonora perfeita.</div>
+    </div>
+  </div>
+  <div class="servicos-cta fade-in">
+    <a href="#contato" class="btn-primary">Solicitar orçamento</a>
+  </div>
+</section>
+
+<!-- GALERIA -->
+<section id="galeria" style="padding-top:100px; padding-bottom:80px;">
+  <div class="galeria-header fade-in">
+    <div class="section-tag">Galeria</div>
+    <h2 class="section-title">A pista não mente</h2>
+  </div>
+  <div class="galeria-grid">
+    <div class="galeria-item">
+      <img src="uploads/ChatGPT Image 23 de abr. de 2026, 13_25_40.png" alt="Show">
+      <div class="galeria-overlay"></div>
+    </div>
+    <div class="galeria-item">
+      <img src="uploads/98b0d2c9-13cd-47b1-87ba-053ace91fa49.png" alt="DJ Bolinha" style="object-position:center">
+      <div class="galeria-overlay"></div>
+    </div>
+    <div class="galeria-item">
+      <img src="uploads/c133bcca-ecfd-4e07-9ede-b48e3798fae5.png" alt="DJ Bolinha" style="object-position:center">
+      <div class="galeria-overlay"></div>
+    </div>
+    <div class="galeria-item">
+      <img src="uploads/ChatGPT Image 23 de abr. de 2026, 13_23_43.png" alt="Show lotado">
+      <div class="galeria-overlay"></div>
+    </div>
+    <div class="galeria-item">
+      <img src="uploads/ChatGPT Image 23 de abr. de 2026, 13_17_59.png" alt="Multidão">
+      <div class="galeria-overlay"></div>
+    </div>
+    <div class="galeria-item">
+      <img src="uploads/ChatGPT Image 23 de abr. de 2026, 13_51_28.png" alt="Crowd">
+      <div class="galeria-overlay"></div>
+    </div>
+  </div>
+</section>
+
+<!-- DEPOIMENTOS -->
+<section id="depoimentos" style="padding:80px 0; overflow:hidden;">
+  <div class="depo-header fade-in" style="padding:0 80px;">
+    <div class="section-tag">Depoimentos</div>
+    <h2 class="section-title">O que dizem sobre ele</h2>
+  </div>
+  <div style="overflow:hidden; padding:8px 0;">
+    <div class="depo-track">
+      <!-- duplicated for seamless loop -->
+      <div class="depo-card"><div class="depo-stars">★★★★★</div><p class="depo-text">"Melhor festa que já fizemos. Pista cheia do início ao fim, o DJ leu o público perfeitamente."</p><div class="depo-author">Mariana S. — Evento corporativo</div></div>
+      <div class="depo-card"><div class="depo-stars">★★★★★</div><p class="depo-text">"Contratamos para o aniversário da empresa e foi um sucesso absoluto. Profissional, pontual e incrível."</p><div class="depo-author">Ricardo T. — CEO, TechFest</div></div>
+      <div class="depo-card"><div class="depo-stars">★★★★★</div><p class="depo-text">"Show de outro nível. Conseguiu manter 2.000 pessoas na pista por mais de 4 horas seguidas."</p><div class="depo-author">Felipe A. — Produtor de eventos</div></div>
+      <div class="depo-card"><div class="depo-stars">★★★★★</div><p class="depo-text">"Energia que contamina todo mundo. O Bolinha tem um feeling único — é difícil encontrar isso."</p><div class="depo-author">Carla M. — Noivas & Co.</div></div>
+      <div class="depo-card"><div class="depo-stars">★★★★★</div><p class="depo-text">"Recomendo de olhos fechados. Sabe exatamente como comandar uma multidão."</p><div class="depo-author">André L. — Gerente de entretenimento</div></div>
+      <!-- repeat -->
+      <div class="depo-card"><div class="depo-stars">★★★★★</div><p class="depo-text">"Melhor festa que já fizemos. Pista cheia do início ao fim, o DJ leu o público perfeitamente."</p><div class="depo-author">Mariana S. — Evento corporativo</div></div>
+      <div class="depo-card"><div class="depo-stars">★★★★★</div><p class="depo-text">"Contratamos para o aniversário da empresa e foi um sucesso absoluto. Profissional, pontual e incrível."</p><div class="depo-author">Ricardo T. — CEO, TechFest</div></div>
+      <div class="depo-card"><div class="depo-stars">★★★★★</div><p class="depo-text">"Show de outro nível. Conseguiu manter 2.000 pessoas na pista por mais de 4 horas seguidas."</p><div class="depo-author">Felipe A. — Produtor de eventos</div></div>
+      <div class="depo-card"><div class="depo-stars">★★★★★</div><p class="depo-text">"Energia que contamina todo mundo. O Bolinha tem um feeling único — é difícil encontrar isso."</p><div class="depo-author">Carla M. — Noivas & Co.</div></div>
+      <div class="depo-card"><div class="depo-stars">★★★★★</div><p class="depo-text">"Recomendo de olhos fechados. Sabe exatamente como comandar uma multidão."</p><div class="depo-author">André L. — Gerente de entretenimento</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- AGENDA -->
+<section id="agenda">
+  <div class="agenda-header fade-in">
+    <div class="section-tag">Agenda</div>
+    <h2 class="section-title">Próximos eventos</h2>
+  </div>
+  <div class="agenda-list">
+    <div class="agenda-item fade-in">
+      <div class="agenda-date"><div class="agenda-day">03</div><div class="agenda-month">Mai</div></div>
+      <div class="agenda-info"><div class="agenda-nome">Sunset Festival</div><div class="agenda-local">Praia do Futuro • Arena Norte</div></div>
+      <div class="agenda-cidade">Fortaleza, CE</div>
+    </div>
+    <div class="agenda-item fade-in" style="transition-delay:0.1s">
+      <div class="agenda-date"><div class="agenda-day">10</div><div class="agenda-month">Mai</div></div>
+      <div class="agenda-info"><div class="agenda-nome">Club Night Premium</div><div class="agenda-local">Espaço Eletro • VIP Lounge</div></div>
+      <div class="agenda-cidade">São Paulo, SP</div>
+    </div>
+    <div class="agenda-item fade-in" style="transition-delay:0.2s">
+      <div class="agenda-date"><div class="agenda-day">17</div><div class="agenda-month">Mai</div></div>
+      <div class="agenda-info"><div class="agenda-nome">Festa Corporativa</div><div class="agenda-local">Hotel Gran Melia • Salão Principal</div></div>
+      <div class="agenda-cidade">Rio de Janeiro, RJ</div>
+    </div>
+    <div class="agenda-item fade-in" style="transition-delay:0.3s">
+      <div class="agenda-date"><div class="agenda-day">24</div><div class="agenda-month">Mai</div></div>
+      <div class="agenda-info"><div class="agenda-nome">Open Air — Verão</div><div class="agenda-local">Orla da Atalaia • Palco Principal</div></div>
+      <div class="agenda-cidade">Aracaju, SE</div>
+    </div>
+    <div class="agenda-item fade-in" style="transition-delay:0.4s">
+      <div class="agenda-date"><div class="agenda-day">07</div><div class="agenda-month">Jun</div></div>
+      <div class="agenda-info"><div class="agenda-nome">Festival Nordeste</div><div class="agenda-local">Parque da Cidade • Palco A</div></div>
+      <div class="agenda-cidade">Recife, PE</div>
+    </div>
+  </div>
+  <div class="agenda-cta fade-in">
+    <a href="#contato" class="btn-primary">Reservar data</a>
+  </div>
+</section>
+
+<!-- CONTATO -->
+<section id="contato">
+  <div class="contato-wrap">
+    <div class="contato-left fade-in-left">
+      <div class="section-tag">Contato</div>
+      <h2 class="section-title">Vamos fazer seu<br>evento acontecer</h2>
+      <p>Preencha o formulário ou entre em contato direto. Respondemos em até 24h.</p>
+      <div class="contact-links">
+        <a href="https://wa.me/5521998703473" class="contact-link" target="_blank">
+          <div class="contact-link-icon">📱</div>
+          WhatsApp — Resposta rápida
+        </a>
+        <a href="https://ig.me/m/djbolinhaoficial" class="contact-link" target="_blank">
+          <div class="contact-link-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></div>
+          @djbolinhaoficial
+        </a>
+        <a href="/cdn-cgi/l/email-protection#70131f1e0411041f30141a121f1c191e18115e131f1d5e1202" class="contact-link">
+          <div class="contact-link-icon">✉️</div>
+          <span class="__cf_email__" data-cfemail="e5868a8b9184918aa5818f878a898c8b8d84cb868a88cb8797">[email&#160;protected]</span>
+        </a>
+      </div>
+    </div>
+    <div class="fade-in-right">
+      <form class="form" id="contactForm">
+        <div class="form-row">
+          <input type="text" placeholder="Seu nome" required>
+          <input type="tel" placeholder="WhatsApp">
+        </div>
+        <select required>
+          <option value="" disabled selected>Tipo de evento</option>
+          <option>Festa privada</option>
+          <option>Evento corporativo</option>
+          <option>Show / Festival</option>
+          <option>Casamento</option>
+          <option>Outro</option>
+        </select>
+        <input type="date" placeholder="Data do evento">
+        <textarea placeholder="Conte mais sobre seu evento — local, número de pessoas, estilo musical..."></textarea>
+        <button type="submit" class="btn-primary" style="width:100%; text-align:center; font-size:15px;">Enviar pedido</button>
+      </form>
+      <div class="form-success" id="formSuccess">
+        ✅ Pedido recebido!<br>
+        <span style="font-family:'DM Sans',sans-serif;font-size:16px;opacity:0.7;font-weight:300;">Entraremos em contato em até 24h.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">DJ <span>BOLINHA</span></div>
+  <div class="footer-copy">© 2026 DJ Bolinha — Todos os direitos reservados</div>
+  <div class="footer-socials">
+    <a href="https://ig.me/m/djbolinhaoficial" class="footer-social" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+    <a href="https://wa.me/5521998703473" class="footer-social" target="_blank">📱</a>
+  </div>
+</footer>
+
+<!-- WHATSAPP FLOAT -->
+<a href="https://wa.me/5521998703473" class="whatsapp-float" target="_blank" title="Falar no WhatsApp">💬</a>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  // Navbar scroll
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // Parallax hero
+  const heroBg = document.getElementById('heroBg');
+  window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY;
+    if (scrolled < window.innerHeight) {
+      heroBg.style.transform = `scale(1.05) translateY(${scrolled * 0.25}px)`;
+    }
+  });
+
+  // Intersection Observer for fade-in
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.fade-in, .fade-in-left, .fade-in-right').forEach(el => observer.observe(el));
+
+  // Counter animation
+  function animateCounter(el, target, suffix = '') {
+    const duration = 1800;
+    const start = performance.now();
+    const step = (now) => {
+      const progress = Math.min((now - start) / duration, 1);
+      const ease = 1 - Math.pow(1 - progress, 3);
+      const value = Math.round(ease * target);
+      el.textContent = value.toLocaleString('en-US') + suffix;
+      if (progress < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+
+  const statsObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        document.querySelectorAll('[data-target]').forEach(el => {
+          animateCounter(el, parseInt(el.dataset.target), el.dataset.suffix || '');
+        });
+        statsObs.disconnect();
+      }
+    });
+  }, { threshold: 0.5 });
+  statsObs.observe(document.getElementById('stats'));
+
+  // Form submit → WhatsApp
+  document.getElementById('contactForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const inputs = this.querySelectorAll('input, select, textarea');
+    const nome = inputs[0].value;
+    const whats = inputs[1].value;
+    const tipo = inputs[2].value;
+    const data = inputs[3].value;
+    const msg = inputs[4].value;
+    const texto = `Olá DJ Bolinha! 👋%0A%0A*Nome:* ${encodeURIComponent(nome)}%0A*WhatsApp:* ${encodeURIComponent(whats)}%0A*Tipo de evento:* ${encodeURIComponent(tipo)}%0A*Data:* ${encodeURIComponent(data)}%0A*Detalhes:* ${encodeURIComponent(msg)}`;
+    window.open('https://wa.me/5521998703473?text=' + texto, '_blank');
+    this.style.display = 'none';
+    document.getElementById('formSuccess').style.display = 'block';
+  });
+</script>
+</body>
+</html>
